@@ -2,7 +2,6 @@
 from aip_trainer.utils import get_ml_model, get_args, get_wine_data
 
 
-
 def main():
     """Training code"""
     parser = get_args()
