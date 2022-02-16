@@ -1,0 +1,51 @@
+# Dockerfile to run training with GPU. The nvidia/cuda image MUST match the tensorflow version
+# in the setup.cfg. For a compatibility list, check https://www.tensorflow.org/install/source#gpu
+# and find the appropriate image in
+# https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md
+FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+WORKDIR /root
+
+USER root
+
+# Installs python and then proceeds to install the trainer.
+# IMPORTANT the nvidia/cuda image doesn't have a python version installed, so put here the
+# appropriate version that matches TF. (see link above for compatibility)
+# Install the required trainer packages
+RUN apt-get update && \
+    # Install required packages, including python
+    apt-get install -y --no-install-recommends python3.8-full wget curl && \
+    # Install pip
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py && \
+    python3 -m pip install --upgrade pip && \
+    # Create a virtual environment in which python is the python version we just installed
+    python3 -m pip install virtualenv && \
+    python3 -m virtualenv -p python3 venv && \
+    chmod +x venv/bin/activate && \
+    ./venv/bin/activate && \
+    # Install google cloud sdk, this is mostly for using gsutil to export model.
+    wget -nv https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz && \
+    mkdir /root/tools && \
+    tar xvzf google-cloud-sdk.tar.gz -C /root/tools && \
+    rm google-cloud-sdk.tar.gz && \
+    /root/tools/google-cloud-sdk/install.sh --usage-reporting=false \
+        --path-update=false --bash-completion=false \
+        --disable-installation-options && \
+    rm -rf /root/.config/* && \
+    ln -s /root/.config /config && \
+    # Remove the backup directory that gcloud creates
+    rm -rf /root/tools/google-cloud-sdk/.install/.backup
+
+# Path configuration
+ENV PATH $PATH:/root/tools/google-cloud-sdk/bin
+# Make sure gsutil will use the default service account
+RUN echo '[GoogleCompute]\nservice_account = default' > /etc/boto.cfg
+
+
+# Copy required packages into the image and install in the virtual environment
+COPY . aip-trainer
+WORKDIR aip-trainer
+RUN pip install -e . --user && pip list
+
+
+ENTRYPOINT ["python3", "aip_trainer/trainer.py"]
