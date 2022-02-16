@@ -1,7 +1,8 @@
 # Dockerfile for a container that does simple training in AIP
 FROM python:3.8-slim-bullseye
-WORKDIR /root
 
+ENV WANDB_SECRET="projects/132128828502/secrets/WANDB_API_KEY/versions/1"
+WORKDIR /root
 USER root
 
 # Installs google cloud sdk, this is mostly for using gsutil to export model.

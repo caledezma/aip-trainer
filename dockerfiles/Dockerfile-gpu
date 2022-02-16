@@ -3,6 +3,7 @@
 # and find the appropriate image in
 # https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md
 FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
+ENV WANDB_SECRET="projects/132128828502/secrets/WANDB_API_KEY/versions/2"
 WORKDIR /root
 
 USER root
@@ -18,7 +19,7 @@ RUN apt-get update && \
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
     python3 get-pip.py && \
     python3 -m pip install --upgrade pip && \
-    # Create a virtual environment in which python is the python version we just installed
+    # Create a virtual environment in which `python` is the python version we just installed
     python3 -m pip install virtualenv && \
     python3 -m virtualenv -p python3 venv && \
     chmod +x venv/bin/activate && \
