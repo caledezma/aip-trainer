@@ -46,7 +46,8 @@ def main():
         x=X_test,
         y=y_test
     )
-
+    if args.save_location is not None:
+        classifier.save(args.save_location)
 
 if __name__ == "__main__":
     """Script entrypoint"""

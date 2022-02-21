@@ -52,6 +52,11 @@ def get_args() -> argparse.ArgumentParser:
         default="adam",
     )
     parser.add_argument(
+        "--save-location",
+        type=str,
+        default=None,
+    )
+    parser.add_argument(
         "--test-size",
         type=float,
         default=0.2,
