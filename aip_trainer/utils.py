@@ -139,7 +139,7 @@ def initialise_wandb(project: str, run_name: Optional[str] = None, use_secret=Fa
                 request={"name": wandb_secret_location}
             )
             api_key = client_response.payload.data.decode("UTF-8")
-            os.environ.get["WANDB_API_KEY"] = api_key
+            os.environ["WANDB_API_KEY"] = api_key
         
         if os.environ.get("WANDB_API_KEY") is None:
             raise ValueError("Either use the secret or specify a key in WANDB_API_KEY env var")

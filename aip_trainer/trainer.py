@@ -1,6 +1,7 @@
 """Training entrypoint"""
 from dotenv import find_dotenv, load_dotenv
 
+import google.auth
 from aip_trainer.utils import get_ml_model, get_args, get_wine_data, initialise_wandb
 import wandb
 
@@ -8,6 +9,8 @@ load_dotenv(find_dotenv(usecwd=True))
 
 def main():
     """Training code"""
+    creds, project = google.auth.default()
+    print(f"Project = {project}, Token = {creds.token}, expiry = {creds.expiry}, valid={creds.valid}")
     parser = get_args()
     args = parser.parse_args()
     wandb_active = initialise_wandb(
@@ -36,7 +39,8 @@ def main():
         epochs=args.epochs,
         validation_split=0.1,
         shuffle=True,
-        callbacks=[]
+        callbacks=callbacks,
+        verbose=2,
     )
     classifier.evaluate(
         x=X_test,
