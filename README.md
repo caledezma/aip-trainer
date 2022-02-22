@@ -39,4 +39,4 @@ You can also do the same thing as above using the script `sumbit_aip_job.py` scr
 python submit_aip_job.py --training-inputs training_inputs.yaml --job-name <my_unique_job_name>
 ```
 
-Bear in mind that you can modify the YAML file to suit your needs. Namely, specify the correct URI for the image that you want to run and specify the correct (or none) service account.
+Bear in mind that you can modify the YAML file to suit your needs. Namely, specify the correct URI for the image that you want to run and specify the correct (or none) service account. To learn how to specify training inputs specific to the AIP job, visit the [google reference page](https://cloud.google.com/ai-platform/training/docs/reference/rest/v1/projects.jobs#traininginput)
