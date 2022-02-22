@@ -15,25 +15,23 @@ def main():
     parser.add_argument(
         "--training-inputs",
         type=str,
-        desc="Path to a YAML file containing the training args dictionary",
+        help="Path to a YAML file containing the training args dictionary",
         required=True,
     )
     parser.add_argument(
         "--job-name",
         type=str,
-        desc="Unique name of the AIP job",
+        help="Unique name of the AIP job",
         required=True
     )
     args = parser.parse_args()
     with open(args.training_inputs, 'r') as training_input_file:
         training_inputs = yaml.safe_load(training_input_file)
 
-    print(args.job_name)
     job_spec = {
         'jobId': args.job_name,
         'trainingInput': training_inputs,
     }
-    print(job_spec)
 
     project_name = 'nplan-scheduling'
     project_id = 'projects/{}'.format(project_name)
