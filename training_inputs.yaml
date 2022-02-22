@@ -1,0 +1,12 @@
+masterConfig:
+    imageUri: gcr.io/nplan-scheduling/carlos-aip-test-gpu:wandb
+scaleTier: BASIC_GPU
+args: [
+    "--epochs",
+    "5",
+    "--hidden-layers",
+    "15",
+    "--use-wandb-secret"
+]
+region: us-central1
+serviceAccount: pipeline@nplan-scheduling.iam.gserviceaccount.com
