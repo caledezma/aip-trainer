@@ -34,3 +34,9 @@ gcloud ai-platform jobs submit training $JOB_NAME \
   --model-dir=gs://$BUCKET_NAME/$MODEL_DIR
 ```
 
+You can also do the same thing as above using the script `sumbit_aip_job.py` script provided and the example training arguments file:
+```
+python submit_aip_job.py --training-inputs training_inputs.yaml --job-name <my_unique_job_name>
+```
+
+Bear in mind that you can modify the YAML file to suit your needs. Namely, specify the correct URI for the image that you want to run and specify the correct (or none) service account.
