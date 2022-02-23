@@ -13,7 +13,7 @@ masterConfig:
         type: NVIDIA_TESLA_P100
         count: 1
 region: us-central1
-# If you need access to other google services (e.g. secrets, GCS) you need to specify a service
+# If you need access to other google services (e.g. secrets, GCS) you MUST specify a service
 # account here.
 serviceAccount: pipeline@nplan-scheduling.iam.gserviceaccount.com
 # All the input arguments to the docker container go here
