@@ -1,6 +1,5 @@
 """Python script to submit a job to AIP using the python AIP"""
 import argparse
-import os
 import yaml
 
 from dotenv import load_dotenv, find_dotenv

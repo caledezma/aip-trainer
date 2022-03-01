@@ -37,8 +37,12 @@ def get_args() -> argparse.ArgumentParser:
         default=1024,
     )
     parser.add_argument(
+        "--hypertune",
+        action="store_true",
+    )
+    parser.add_argument(
         "--reg-coeff",
-        type=int,
+        type=float,
         default=0.1,
     )
     parser.add_argument(
@@ -109,7 +113,6 @@ def get_ml_model(
         optimizer=optimizer,
         loss=loss,
         metrics=['accuracy'],
-        
     )
     return model
 

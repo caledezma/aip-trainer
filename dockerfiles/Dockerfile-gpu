@@ -46,7 +46,7 @@ RUN echo '[GoogleCompute]\nservice_account = default' > /etc/boto.cfg
 # Copy required packages into the image and install in the virtual environment
 COPY . aip-trainer
 WORKDIR aip-trainer
-RUN pip install -e . --user && pip list
+RUN pip install -e . --user
 
 
 ENTRYPOINT ["python3", "aip_trainer/trainer.py"]
