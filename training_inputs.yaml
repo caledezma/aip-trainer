@@ -17,7 +17,7 @@ masterType: n1-standard-4
 masterConfig:
     # Specify the location of the image. Note that the service account you are using must have
     # permissions to access that location or the location should be public
-    imageUri: gcr.io/nplan-scheduling/carlos-aip-test-gpu:hypertune
+    # imageUri: path_to_image
     # Specify your accelerator here if using CUSTOM tier and you require one
     # Suported accelerators in https://cloud.google.com/ai-platform/training/docs/reference/rest/v1/AcceleratorType
     acceleratorConfig: 
@@ -26,7 +26,7 @@ masterConfig:
 region: us-central1
 # If you need access to other google services (e.g. secrets, GCS) you MUST specify a service
 # account here.
-serviceAccount: pipeline@nplan-scheduling.iam.gserviceaccount.com
+# serviceAccount: my-service-account@project.iam.gserviceaccount.com
 # All the input arguments to the docker container go here. If you are hypertuning, you must put here
 # the arguments that will be fixed.
 args: [

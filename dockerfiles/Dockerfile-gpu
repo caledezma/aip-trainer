@@ -3,8 +3,7 @@
 # and find the appropriate image in
 # https://gitlab.com/nvidia/container-images/cuda/blob/master/doc/supported-tags.md
 FROM nvidia/cuda:11.2.0-cudnn8-runtime-ubuntu20.04
-ENV WANDB_SECRET="projects/132128828502/secrets/WANDB_API_KEY/versions/2"
-ENV GOOGLE_CLOUD_PROJECT="nplan-scheduling"
+ENV GOOGLE_CLOUD_PROJECT="my-project-name"
 WORKDIR /root
 
 USER root
