@@ -1,14 +1,9 @@
 """Utility functions"""
 import argparse
-import os
-
-from typing import Optional
 
 import pandas as pd
 import tensorflow as tf
-import wandb
 
-from google.cloud import secretmanager
 from sklearn.model_selection import train_test_split
 
 def get_args() -> argparse.ArgumentParser:
@@ -65,20 +60,6 @@ def get_args() -> argparse.ArgumentParser:
         type=float,
         default=0.2,
     )
-    parser.add_argument(
-        "--use-wandb-secret",
-        action="store_true",
-    )
-    parser.add_argument(
-        "--wandb-run-name",
-        type=str,
-        default=None,
-    )
-    parser.add_argument(
-        "--wandb-project",
-        type=str,
-        default="carlos-aip-tests",
-    )
     return parser
 
 
@@ -133,31 +114,3 @@ def get_wine_data(filepath, test_size):
         tf.keras.utils.to_categorical(y_train, num_classes=num_classes),
         tf.keras.utils.to_categorical(y_test, num_classes=num_classes)
     )
-
-
-def initialise_wandb(project: str, run_name: Optional[str] = None, use_secret=False) -> bool:
-    """Initialise weights and biases and return the run name"""
-    try:
-        if use_secret:
-            secrets_client = secretmanager.SecretManagerServiceClient()
-            wandb_secret_location = os.environ.get("WANDB_SECRET")
-            if wandb_secret_location is None:
-                raise ValueError("Couldn't retrieve location of WandB secret")
-            client_response = secrets_client.access_secret_version(
-                request={"name": wandb_secret_location}
-            )
-            api_key = client_response.payload.data.decode("UTF-8")
-            os.environ["WANDB_API_KEY"] = api_key
-        
-        if os.environ.get("WANDB_API_KEY") is None:
-            raise ValueError("Either use the secret or specify a key in WANDB_API_KEY env var")
-        wandb.init(
-            name=run_name,
-            project=project,
-        )
-        print(f"Logging to W&B under project {wandb.run.project} and run {wandb.run.name}")
-        return True
-    except Exception as exc:
-        print("Could not initialise W&B due to")
-        print(exc)
-        return False

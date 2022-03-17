@@ -2,8 +2,7 @@
 from dotenv import find_dotenv, load_dotenv
 import hypertune
 
-from aip_trainer.utils import get_ml_model, get_args, get_wine_data, initialise_wandb
-import wandb
+from aip_trainer.utils import get_ml_model, get_args, get_wine_data
 
 load_dotenv(find_dotenv(usecwd=True))
 
@@ -11,11 +10,6 @@ def main():
     """Training code"""
     parser = get_args()
     args = parser.parse_args()
-    wandb_active = initialise_wandb(
-        project=args.wandb_project,
-        run_name=args.wandb_run_name,
-        use_secret=args.use_wandb_secret
-    )
     
     X_train, X_test, y_train, y_test = get_wine_data("data/wine_data.csv", test_size=args.test_size)
     classifier = get_ml_model(
@@ -28,16 +22,12 @@ def main():
         loss=args.loss,
         optimizer=args.optimizer,
     )
-    callbacks = []
-    if wandb_active:
-        callbacks.append(wandb.keras.WandbCallback(save_model=False))
     classifier.fit(
         x=X_train,
         y=y_train,
         epochs=args.epochs,
         validation_split=0.1,
         shuffle=True,
-        callbacks=callbacks,
         verbose=2,
     )
     if args.save_location is not None:

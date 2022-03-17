@@ -32,7 +32,6 @@ serviceAccount: pipeline@nplan-scheduling.iam.gserviceaccount.com
 args: [
     "--epochs",
     "20",
-    "--use-wandb-secret",
     "--hypertune", # Only add this argument if you are hypertuning, it will enable the reporting
 ]
 # This bit is only needed if you want to use hypertune, you can see the JSON representation for this
